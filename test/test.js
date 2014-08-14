@@ -25,7 +25,6 @@ describe("Node Server Request Listener Function", function() {
 
   it("Should answer GET requests for /", function(done) {
     var req = new stubs.Request("/", "GET");
-
     handler.handleRequest(req, res);
 
     waitForThen(
@@ -42,6 +41,8 @@ describe("Node Server Request Listener Function", function() {
     var req = new stubs.Request("/" + fixtureName, "GET");
 
     handler.handleRequest(req, res);
+    // console.log('req: ', req);
+    // console.log('res: ', res);
 
     waitForThen(
       function() { return res._ended; },
