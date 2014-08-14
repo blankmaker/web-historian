@@ -9,14 +9,24 @@ var file;
 
 
 var handleGet = function(req, res) {
-    if(req.url === '/') {
-      file  = '/web/public/index.html';
-    }
-    if(req.url ==='/www.google.com') {
-      file = '/archives/sites/www.google.com';
-    }
+  //default: for not-found urls
+  var statusCode = 404;
+  file = '/web/public/notfound.html';
+
+  if(req.url === '/') {
+    file  = '/web/public/index.html';
+    statusCode = 200;
+  }
+  if(req.url ==='/www.google.com') {
+    file = '/archives/sites/www.google.com';
+    statusCode = 200;
+  }
+
+
   var asset = path.join(directory, file);
-  handlerHelpers.serveAssets(res, asset, handlerHelpers.sendResponse);
+  console.log('asset: ', asset);
+  console.log('req url: ', req.url);
+  handlerHelpers.serveAssets(res, asset, statusCode);
 };
 
 var handlePost = function(req, res) {
@@ -26,28 +36,17 @@ var handlePost = function(req, res) {
     userUrl += chunk;
   });
   req.on('end', function() {
-    // var parsedUserUrl = JSON.parse(userUrl);
-    console.log('UserUrl: ',userUrl);
-    console.log(typeof userUrl); // we prob don't need to parse
-        // file = '/archives/sites.text';
-    // var asset = path.join(directory, file);
-    // console.log('asset: ', asset);
-    // fs.appendFile(asset, parsedUserUrl, function (err) {
-    //   if (err) {throw err;}
-    //   console.log('parsedUrl: ', parsedUserUrl);
-    // });
-    // redirect to loading screen
-    // send response code 302
-    //
+    userUrl = userUrl.slice(4) + '\n';
+    // passes in path for appendFile
+    archive.addUrlToList(userUrl);
+
+    // sends back loading.html
+    file = '/web/public/loading.html'
+    var asset = path.join(directory, file);
+    handlerHelpers.serveAssets(res, asset, 302);
+
   });
 };
-// exports.sendResponse = function(response, data, statusCode){
-//   statusCode = statusCode || 200;
-//   response.writeHead(statusCode, exports.headers);
-//   console.log('data: ', data);
-//   response.end(JSON.stringify(data));
-// };
-
 
 
 

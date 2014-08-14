@@ -26,12 +26,16 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(){
+
 };
 
 exports.isUrlInList = function(){
 };
 
-exports.addUrlToList = function(){
+exports.addUrlToList = function(url){
+    fs.appendFile(exports.paths.list, url, function (err) {
+      if (err) {throw err;}
+    });
 };
 
 exports.isURLArchived = function(){
