@@ -41,8 +41,6 @@ describe("Node Server Request Listener Function", function() {
     var req = new stubs.Request("/" + fixtureName, "GET");
 
     handler.handleRequest(req, res);
-    // console.log('req: ', req);
-    // console.log('res: ', res);
 
     waitForThen(
       function() { return res._ended; },
@@ -60,7 +58,6 @@ describe("Node Server Request Listener Function", function() {
     // Reset the test file and process request
     fs.writeFileSync(archive.paths.list, "");
     handler.handleRequest(req, res);
-    console.log('path: ', archive.paths.list);
 
     waitForThen(
       function() { return res._ended; },
@@ -99,12 +96,16 @@ describe("html fetcher helpers", function(){
     });
 
     waitForThen(
-      function() { return resultArray; },
+      function() {
+        return resultArray;
+      },
       function(){
         expect(resultArray).to.deep.equal(urlArray);
         done();
-    });
-  });
+      }
+    );
+
+});
 
   it("should have a 'downloadUrls' function", function(){
     expect(typeof archive.downloadUrls).to.equal('function');

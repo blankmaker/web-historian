@@ -24,8 +24,7 @@ var handleGet = function(req, res) {
 
 
   var asset = path.join(directory, file);
-  console.log('asset: ', asset);
-  console.log('req url: ', req.url);
+
   handlerHelpers.serveAssets(res, asset, statusCode);
 };
 
